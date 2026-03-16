@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nitin Tyagi — Frontend Tech Lead</title>
+  <meta name="description" content="Frontend Tech Lead with 12+ years building scalable React applications for Fortune 500 companies." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08080e;
+      --surface: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.08);
+      --accent: #8b5cf6;
+      --accent-light: #c4b5fd;
+      --accent-dim: rgba(139,92,246,0.15);
+      --text: #e8e8f0;
+      --muted: #666;
+      --faint: #333;
+      --mono: 'DM Mono', 'Fira Code', monospace;
+      --display: 'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* GRID BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(139,92,246,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,92,246,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* GLOW ORB */
+    body::after {
+      content: '';
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 65%);
+      top: -250px;
+      right: -250px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 60px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,8,14,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .nav-logo {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 12px;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn-nav {
+      padding: 7px 16px;
+      border-radius: 6px;
+      border: 1px solid rgba(139,92,246,0.35);
+      background: var(--accent-dim);
+      color: var(--accent-light) !important;
+      font-size: 11px !important;
+      letter-spacing: 0.05em;
+      transition: all 0.2s !important;
+    }
+
+    .btn-nav:hover {
+      background: rgba(139,92,246,0.25) !important;
+      border-color: rgba(139,92,246,0.6) !important;
+      color: #fff !important;
+    }
+
+    /* SECTIONS */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* HERO */
+    #hero {
+      padding: 110px 0 90px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(56px, 9vw, 92px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.035em;
+      margin-bottom: 28px;
+    }
+
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-desc {
+      font-size: 17px;
+      color: #888;
+      line-height: 1.75;
+      max-width: 580px;
+      margin-bottom: 14px;
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      color: #4a4a5a;
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 44px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 7px;
+      border: 1px solid rgba(139,92,246,0.4);
+      background: var(--accent-dim);
+      color: var(--accent-light);
+      font-family: var(--mono);
+      font-size: 13px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary:hover {
+      background: rgba(139,92,246,0.25);
+      border-color: rgba(139,92,246,0.7);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      white-space: nowrap;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* FILTERS */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent-dim);
+      border-color: rgba(139,92,246,0.4);
+      color: var(--accent-light);
+    }
+
+    /* PROJECT GRID */
+    #work { padding: 70px 0; border-top: 1px solid var(--border); }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      border-color: rgba(139,92,246,0.35);
+      background: rgba(139,92,246,0.04);
+      transform: translateY(-4px);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(139,92,246,0.15);
+    }
+
+    .card-preview {
+      height: 200px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      background: #0d0d14;
+    }
+
+    .card-preview iframe {
+      width: 133.33%;
+      height: 266px;
+      border: none;
+      transform: scale(0.75);
+      transform-origin: top left;
+      pointer-events: none;
+    }
+
+    .card-preview-pro {
+      height: 200px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0d0d14 0%, #111118 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-preview-pro::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(139,92,246,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,92,246,0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .pro-inner {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pro-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .pro-label {
+      font-size: 11px;
+      color: #444;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pro-url {
+      font-size: 10px;
+      color: #333;
+      margin-top: 4px;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 9px;
+      padding: 3px 9px;
+      border-radius: 3px;
+      font-family: var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .badge-oss {
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.25);
+      color: #34d399;
+    }
+
+    .badge-pro {
+      background: rgba(251,191,36,0.1);
+      border: 1px solid rgba(251,191,36,0.25);
+      color: #fbbf24;
+    }
+
+    .card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: #5a5a72;
+      line-height: 1.75;
+      margin-bottom: 16px;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-size: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #5a5a72;
+      letter-spacing: 0.04em;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-card-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 5px;
+      border: 1px solid rgba(139,92,246,0.3);
+      background: var(--accent-dim);
+      color: var(--accent-light);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-card-live:hover {
+      background: rgba(139,92,246,0.25);
+      border-color: rgba(139,92,246,0.55);
+    }
+
+    .btn-card-gh {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-card-gh:hover {
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+    }
+
+    /* SKILLS */
+    #skills { padding: 70px 0; border-top: 1px solid var(--border); }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-pill {
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 11px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      border-color: rgba(139,92,246,0.3);
+      color: var(--accent-light);
+      background: rgba(139,92,246,0.06);
+    }
+
+    /* EXPERIENCE */
+    #experience { padding: 70px 0; border-top: 1px solid var(--border); }
+
+    .exp-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .exp-item {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-start: start;
+    }
+
+    .exp-item:last-child { border-bottom: none; }
+
+    .exp-role {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .exp-company {
+      font-size: 13px;
+      color: var(--accent-light);
+      margin-bottom: 8px;
+    }
+
+    .exp-desc {
+      font-size: 12px;
+      color: #4a4a5a;
+      line-height: 1.75;
+      max-width: 600px;
+    }
+
+    .exp-date {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      text-align: right;
+      padding-top: 3px;
+    }
+
+    /* CONTACT */
+    #contact { padding: 70px 0 100px; border-top: 1px solid var(--border); }
+
+    .contact-title {
+      font-family: var(--display);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .contact-sub {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+
+    .contact-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer span {
+      font-size: 11px;
+      color: var(--faint);
+      letter-spacing: 0.04em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp 0.65s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .d1 { animation-delay: 0.05s; opacity: 0; }
+    .d2 { animation-delay: 0.15s; opacity: 0; }
+    .d3 { animation-delay: 0.25s; opacity: 0; }
+    .d4 { animation-delay: 0.35s; opacity: 0; }
+    .d5 { animation-delay: 0.45s; opacity: 0; }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .container { padding: 0 20px; }
+      footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
+      .exp-item { grid-template-columns: 1fr; }
+      .exp-date { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">NT<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://linkedin.com/in/tyaginboston" target="_blank" rel="noreferrer" class="btn-nav">LinkedIn ↗</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-eyebrow fade-up d1">Available for new opportunities</div>
+      <h1 class="hero-name fade-up d2">Nitin<br><span class="accent">Tyagi</span></h1>
+      <p class="hero-desc fade-up d3">
+        Frontend Tech Lead · 12+ years building scalable React applications for Fortune 500 companies in insurance &amp; healthcare.
+      </p>
+      <p class="hero-sub fade-up d4">
+        Specializing in React 18 · TypeScript · Next.js · Component Libraries · WCAG 2.1 · Performance Optimization
+      </p>
+      <div class="hero-actions fade-up d5">
+        <a href="#work" class="btn-primary">View Work ↓</a>
+        <a href="mailto:tyagi.nitin@icloud.com" class="btn-secondary">Get in Touch</a>
+        <a href="https://github.com/tyaginboston" target="_blank" rel="noreferrer" class="btn-secondary">GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Selected Work</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="open-source">Open Source</button>
+        <button class="filter-btn" data-filter="professional">Professional</button>
+      </div>
+
+      <div class="project-grid" id="projectGrid">
+
+        <!-- PROJECT 1: Payment Card -->
+        <div class="project-card" data-category="open-source">
+          <div class="card-preview">
+            <iframe src="https://tyaginboston.github.io/payment-card-web-component/" title="Payment Card Web Component" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+            <span class="card-badge badge-oss">Open Source</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Payment Card Web Component</h3>
+            <p class="card-desc">Framework-agnostic web component with Luhn algorithm validation. Detects Visa, Mastercard &amp; Amex automatically. Zero dependencies — works in any stack.</p>
+            <div class="card-tags">
+              <span class="tag">Web Components</span>
+              <span class="tag">Vanilla JS</span>
+              <span class="tag">Luhn Validation</span>
+              <span class="tag">CSS</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://tyaginboston.github.io/payment-card-web-component/" target="_blank" rel="noreferrer" class="btn-card-live">↗ Live Demo</a>
+              <a href="https://github.com/tyaginboston/payment-card-web-component" target="_blank" rel="noreferrer" class="btn-card-gh">⌥ GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 2: Microblog -->
+        <div class="project-card" data-category="open-source">
+          <div class="card-preview">
+            <iframe src="https://tyaginboston.github.io/microblog-app/" title="Microblog App" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+            <span class="card-badge badge-oss">Open Source</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Microblog App</h3>
+            <p class="card-desc">A lightweight microblogging application demonstrating React component architecture, state management, and responsive UI design patterns.</p>
+            <div class="card-tags">
+              <span class="tag">React</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">CSS</span>
+              <span class="tag">SPA</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://tyaginboston.github.io/microblog-app/" target="_blank" rel="noreferrer" class="btn-card-live">↗ Live Demo</a>
+              <a href="https://github.com/tyaginboston/microblog-app" target="_blank" rel="noreferrer" class="btn-card-gh">⌥ GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 3: MassMutual -->
+        <div class="project-card" data-category="professional">
+          <div class="card-preview-pro">
+            <div class="pro-inner">
+              <span class="pro-icon">🏦</span>
+              <div class="pro-label">Enterprise · Confidential</div>
+              <div class="pro-url">massmutual.com</div>
+            </div>
+            <span class="card-badge badge-pro">Professional</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">MassMutual — Billing &amp; Payment Portal</h3>
+            <p class="card-desc">Scalable SPA for customer payments at one of America's largest mutual life insurers. Reduced AWS costs by 60% and triage time by 30% via custom New Relic dashboards.</p>
+            <div class="card-tags">
+              <span class="tag">React 18</span>
+              <span class="tag">Redux</span>
+              <span class="tag">D3.js</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Docker</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://www.massmutual.com" target="_blank" rel="noreferrer" class="btn-card-live">↗ Visit Site</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 4: Cigna -->
+        <div class="project-card" data-category="professional">
+          <div class="card-preview-pro">
+            <div class="pro-inner">
+              <span class="pro-icon">🏥</span>
+              <div class="pro-label">Enterprise · Confidential</div>
+              <div class="pro-url">cigna.com</div>
+            </div>
+            <span class="card-badge badge-pro">Professional</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Cigna.com — Responsive Redesign</h3>
+            <p class="card-desc">Architected mobile-first responsive templates for Cigna's full website redesign at Publicis Sapient. Led global offshore teams on responsive techniques and LESS.</p>
+            <div class="card-tags">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3 / LESS</span>
+              <span class="tag">Responsive</span>
+              <span class="tag">WCAG 2.1</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://www.cigna.com" target="_blank" rel="noreferrer" class="btn-card-live">↗ Visit Site</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 5: myCigna -->
+        <div class="project-card" data-category="professional">
+          <div class="card-preview-pro">
+            <div class="pro-inner">
+              <span class="pro-icon">📱</span>
+              <div class="pro-label">Enterprise · Confidential</div>
+              <div class="pro-url">my.cigna.com</div>
+            </div>
+            <span class="card-badge badge-pro">Professional</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">myCigna — Customer Portal</h3>
+            <p class="card-desc">Enhanced accessibility and responsive layouts for Cigna's customer-facing mobile app and portal. Improved usability for visually impaired users meeting WCAG 2.1 AA standards.</p>
+            <div class="card-tags">
+              <span class="tag">React</span>
+              <span class="tag">Accessibility</span>
+              <span class="tag">ARIA</span>
+              <span class="tag">Mobile-First</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://my.cigna.com" target="_blank" rel="noreferrer" class="btn-card-live">↗ Visit Site</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJECT 6: TD Garden -->
+        <div class="project-card" data-category="professional">
+          <div class="card-preview-pro">
+            <div class="pro-inner">
+              <span class="pro-icon">🏟️</span>
+              <div class="pro-label">Enterprise · Confidential</div>
+              <div class="pro-url">tdgarden.com</div>
+            </div>
+            <span class="card-badge badge-pro">Professional</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">TD Garden — Wayfinding App</h3>
+            <p class="card-desc">Highly interactive touchscreen kiosk wayfinding app built with SVG and jQuery for real-time spatial navigation inside TD Garden arena.</p>
+            <div class="card-tags">
+              <span class="tag">SVG</span>
+              <span class="tag">jQuery</span>
+              <span class="tag">Kiosk UI</span>
+              <span class="tag">Spatial Nav</span>
+            </div>
+            <div class="card-actions">
+              <a href="https://www.tdgarden.com" target="_blank" rel="noreferrer" class="btn-card-live">↗ Visit Site</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Skills</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+        <span class="skill-pill">React 18</span>
+        <span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">Next.js</span>
+        <span class="skill-pill">Node.js</span>
+        <span class="skill-pill">RxJS</span>
+        <span class="skill-pill">Redux</span>
+        <span class="skill-pill">D3.js</span>
+        <span class="skill-pill">Web Components</span>
+        <span class="skill-pill">Vue.js</span>
+        <span class="skill-pill">Express.js</span>
+        <span class="skill-pill">Material UI</span>
+        <span class="skill-pill">Tailwind CSS</span>
+        <span class="skill-pill">SCSS</span>
+        <span class="skill-pill">Vite</span>
+        <span class="skill-pill">Webpack</span>
+        <span class="skill-pill">AWS Lambda</span>
+        <span class="skill-pill">Terraform</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">Jenkins</span>
+        <span class="skill-pill">GitHub Actions</span>
+        <span class="skill-pill">Kubernetes</span>
+        <span class="skill-pill">WCAG 2.1</span>
+        <span class="skill-pill">ARIA</span>
+        <span class="skill-pill">Jest</span>
+        <span class="skill-pill">Figma</span>
+        <span class="skill-pill">New Relic</span>
+        <span class="skill-pill">PostgreSQL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Experience</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="exp-list">
+
+        <div class="exp-item">
+          <div>
+            <div class="exp-role">Tech Lead — React / Lead UI Developer</div>
+            <div class="exp-company">The Hanover Insurance Group · Worcester, MA</div>
+            <p class="exp-desc">Architected greenfield React 18 application from inception. Integrated RxJS for reactive state management. Designed accessible Material UI component systems. Mentored team on front-end best practices.</p>
+          </div>
+          <div class="exp-date">Jul 2025 — Present</div>
+        </div>
+
+        <div class="exp-item">
+          <div>
+            <div class="exp-role">Software Engineer — Frontend</div>
+            <div class="exp-company">MassMutual Life Insurance · Boston, MA</div>
+            <p class="exp-desc">Built Terraform visualizer (D3.js/AntV G6), engineered accessible SPAs, reduced AWS costs by 60% and triage time by 30% with custom New Relic dashboards. Created WCAG-compliant shared component library.</p>
+          </div>
+          <div class="exp-date">2018 — Jul 2025</div>
+        </div>
+
+        <div class="exp-item">
+          <div>
+            <div class="exp-role">Senior UI Developer</div>
+            <div class="exp-company">Bamboo Rose · Boston, MA</div>
+            <p class="exp-desc">Modernized retail UI architecture. Created living style guide. Mentored developers across 3 countries on UI standards and best practices.</p>
+          </div>
+          <div class="exp-date">2014 — 2018</div>
+        </div>
+
+        <div class="exp-item">
+          <div>
+            <div class="exp-role">Senior Web Developer</div>
+            <div class="exp-company">Publicis Sapient · Boston, MA</div>
+            <p class="exp-desc">Architected mobile-first Cigna.com redesign. Built TD Garden SVG wayfinding kiosk app. Enhanced accessibility for Panera mobile apps.</p>
+          </div>
+          <div class="exp-date">2007 — 2014</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="contact-title">Let's Work<br>Together</h2>
+      <p class="contact-sub">
+        Open to Senior Frontend / Tech Lead roles in Boston area or remote.<br>
+        12+ years enterprise experience · React · TypeScript · WCAG 2.1
+      </p>
+      <div class="contact-actions">
+        <a href="mailto:tyagi.nitin@icloud.com" class="btn-primary">tyagi.nitin@icloud.com</a>
+        <a href="https://linkedin.com/in/tyaginboston" target="_blank" rel="noreferrer" class="btn-secondary">LinkedIn ↗</a>
+        <a href="https://github.com/tyaginboston" target="_blank" rel="noreferrer" class="btn-secondary">GitHub ↗</a>
+        <a href="tel:5085793531" class="btn-secondary">(508) 579-3531</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Nitin Tyagi · Boston, MA</span>
+    <span>Built with HTML · CSS · JS · Hosted on GitHub Pages</span>
+  </footer>
+
+  <!-- FILTER SCRIPT -->
+  <script>
+    // Filter buttons
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Smooth nav active state
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === `#${current}` ? '#e8e8f0' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>
